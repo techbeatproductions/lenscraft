@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreatePackage">
+
+    <LinearLayout
+        android:id="@+id/createPackageRLContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/create_package_top_cardview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/top_card_bg_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/onboarding3" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/bg_mask_top_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.4"
+                app:cardBackgroundColor="@color/black" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="2dp">
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/logoFragmentContainerCreatePackageScreen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="31dp" />
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/WelcomeFragmentContainerCreatePackageScreen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/logoFragmentContainerCreatePackageScreen"
+                    android:layout_marginTop="143dp" />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/create_package_bottom_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-25dp"
+            android:layout_marginBottom="-40dp"
+            android:layout_weight="1"
+            app:cardBackgroundColor="@color/primary_green"
+            app:cardCornerRadius="25dp">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/pckageItemsClickablesCardView"
+                        android:layout_width="match_parent"
+                        android:layout_height="102dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="42dp"
+                        android:layout_marginEnd="24dp"
+                        app:cardBackgroundColor="@color/secondary_brown"
+                        app:cardCornerRadius="5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/seeMoreTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginEnd="5dp"
+                                android:fontFamily="@font/raleway_black"
+                                android:text="@string/see_more"
+                                android:textColor="@color/primary_green"
+                                android:textSize="11sp" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/packageBtnRecyclerView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@id/seeMoreTV"
+                                android:layout_marginStart="11dp"
+                                android:layout_marginTop="17dp"
+                                android:layout_marginEnd="11dp" />
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+                </RelativeLayout>
+            </ScrollView>
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+</RelativeLayout>

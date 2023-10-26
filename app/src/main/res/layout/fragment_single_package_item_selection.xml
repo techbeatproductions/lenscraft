@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.SinglePackageItemSelection">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/singlepackageitemCardViewFragment"
+        android:layout_width="match_parent"
+        android:layout_height="254dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        app:cardCornerRadius="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/singlePackageItemSelectorImgView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/packagecamera" />
+
+            <RelativeLayout
+                android:id="@+id/itemCustomizationRL"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/secondary_brown"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/brandTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/raleway_regular"
+                    android:gravity="center"
+                    android:text="@string/brand"
+                    android:textColor="@color/primary_green" />
+
+                <TextView
+                    android:id="@+id/singleItemAmountTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/brandTV"
+                    android:layout_centerHorizontal="false"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/raleway_regular"
+                    android:gravity="center"
+                    android:text="@string/amount"
+                    android:textColor="@color/primary_green" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

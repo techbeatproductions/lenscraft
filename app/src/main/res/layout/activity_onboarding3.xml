@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_green"
+    tools:context=".Onboarding3">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/onboarding3" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.4"
+        app:cardBackgroundColor="@color/black" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/logoFragmentContainer3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="31dp"
+        android:elevation="3dp" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/welcomeFragmentContainer3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logoFragmentContainer3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="457dp"
+        android:layout_marginEnd="24dp"
+        android:elevation="3dp" />
+
+    <TextView
+        android:id="@+id/onboardingCaption2TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/welcomeFragmentContainer3"
+        android:layout_centerHorizontal="true"
+        android:elevation="2dp"
+        android:fontFamily="@font/raleway_regular"
+        android:text="@string/welcome_caption3"
+        android:textColor="@color/secondary_brown"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/nextBtn3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/onboardingCaption2TV"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/lenscraft_custom_button"
+        android:fontFamily="@font/raleway_extra_bold"
+        android:text="@string/next"
+        android:textAllCaps="false"
+        android:textColor="@color/primary_green"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nextBtn3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:elevation="2dp"
+        app:srcCompat="@drawable/onboard_switch3svg" />
+</RelativeLayout>

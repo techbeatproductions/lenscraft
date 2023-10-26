@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="24dp"
+    tools:context=".fragments.WeddingPackageFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <TextView
+        android:id="@+id/weddingPackagesTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/rage"
+        android:text="@string/wedding_package"
+        android:textColor="@color/secondary_brown"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/weddingPackagesTV"
+        android:fontFamily="@font/raleway_light"
+        android:text="@string/choose_or_customize"
+        android:textColor="@color/secondary_brown"
+        android:textSize="12sp" />
+</RelativeLayout>

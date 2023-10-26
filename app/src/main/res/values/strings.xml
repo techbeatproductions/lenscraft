@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">Lens Craft</string>
+    <string name="moments_shared">Moments shared </string>
+    <string name="welcome_msg">Welcome to Lens Craft 👋</string>
+    <string name="welcome_caption">Let’s create a package just for you today</string>
+    <string name="welcome_caption2">Creating memories together</string>
+    <string name="welcome_caption3">Smile wide! We\'re ready to snap your story in style</string>
+    <string name="next">Next</string>
+    <string name="hi_there">Hi there 👋</string>
+    <string name="sign_up_screen_welcome">"Welcome to Lens Craft, Sign up, Say cheese and let's capture amazing memories together!"</string>
+    <string name="username">Username</string>
+    <string name="Email">Email</string>
+    <string name="password">Password</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="already_have_an_acc">Already have an account?</string>
+    <string name="sign_in">Sign In</string>
+    <string name="welcome_sign_in_screen">Welcome Back 👋</string>
+    <string name="forgot_password">Forgot Password ?</string>
+    <string name="continue_with">Continue With</string>
+    <string name="or">Or</string>
+    <string name="new_password">New Password</string>
+    <string name="reset_your_password">Reset your Password.</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="forgot_password_desc">Don’t worry! It happens. Please enter the email address
+associated with your account</string>
+    <string name="submit">Submit</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="lets_design_package">Let’s  Design a package Just for you</string>
+    <string name="see_more">See more > ></string>
+    <string name="camera">Camera</string>
+    <string name="lens">Lens</string>
+    <string name="audio_equipment">Audio Equipment</string>
+    <string name="lights">Lights</string>
+    <string name="wedding_package">Wedding Packages</string>
+    <string name="choose_or_customize">Choose or customize your wedding package today</string>
+    <string name="lets_design">Let’s  Design a package Just for you</string>
+    <string name="no_of_cameras">No of Cameras :</string>
+    <string name="amount">Amount</string>
+    <string name="create_package">Create Package</string>
+    <string name="brand">Brand</string>
+    <string name="model">Model</string>
+    <string name="description">Description</string>
+
+
+</resources>

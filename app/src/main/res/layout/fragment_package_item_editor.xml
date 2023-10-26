@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".fragments.PackageItemEditorFragment">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/packageitemCardViewFragment"
+        android:layout_width="match_parent"
+        android:layout_height="254dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        app:cardCornerRadius="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/singlePackageItemSelectorImgView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/packagecamera" />
+
+            <RelativeLayout
+                android:id="@+id/itemCustomizationRL"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/secondary_brown"
+                android:gravity="center">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/itemTextInputLayoutCreatePackage"
+                    android:layout_width="match_parent"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/lenscraft_custom_green_text_field"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center"
+                    android:textColorHint="@color/primary_green"
+                    app:boxBackgroundMode="none"
+                    app:hintAnimationEnabled="false"
+                    app:hintEnabled="false"
+                    app:hintTextColor="@color/secondary_brown">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/packageItemTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/lenscraft_custom_green_text_field"
+                        android:focusable="true"
+                        android:fontFamily="@font/raleway_regular"
+                        android:hint="@string/brand"
+                        android:inputType="text"
+                        android:paddingStart="11dp"
+                        android:textColor="@color/secondary_brown"
+                        android:textColorHint="@color/secondary_brown"
+                        android:textSize="11sp"
+                        android:visibility="visible"
+                        app:textInputLayoutFocusedRectEnabled="false" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/itemModelInputLayoutCreatePackage"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:layout_below="@id/packageitemCardViewFragment"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/lenscraft_custom_edit_text"
+        android:focusableInTouchMode="true"
+        android:gravity="center"
+        android:textColorHint="@color/primary_green"
+        app:boxBackgroundMode="none"
+        app:hintAnimationEnabled="false"
+        app:hintEnabled="false"
+        app:hintTextColor="@color/secondary_brown">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/packageItemModelTxt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/lenscraft_custom_edit_text"
+            android:focusable="true"
+            android:fontFamily="@font/raleway_regular"
+            android:hint="@string/model"
+            android:inputType="text"
+            android:paddingStart="11dp"
+            android:textColor="@color/primary_green"
+            android:textColorHint="@color/primary_green"
+            android:textSize="11sp"
+            android:visibility="visible"
+            app:textInputLayoutFocusedRectEnabled="false" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/itemDescriptionInputLayoutCreatePackage"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:layout_below="@id/itemModelInputLayoutCreatePackage"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/lenscraft_custom_edit_text"
+        android:focusableInTouchMode="true"
+        android:gravity="center"
+        android:textColorHint="@color/primary_green"
+        app:boxBackgroundMode="none"
+        app:hintAnimationEnabled="false"
+        app:hintEnabled="false"
+        app:hintTextColor="@color/secondary_brown">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/packageItemDescriptionTxt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/lenscraft_custom_edit_text"
+            android:focusable="true"
+            android:fontFamily="@font/raleway_regular"
+            android:hint="@string/description"
+            android:inputType="text"
+            android:paddingStart="11dp"
+            android:textColor="@color/primary_green"
+            android:textColorHint="@color/primary_green"
+            android:textSize="11sp"
+            android:visibility="visible"
+            app:textInputLayoutFocusedRectEnabled="false" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/amountContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/itemDescriptionInputLayoutCreatePackage"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp">
+
+        <TextView
+            android:id="@+id/amountTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="11dp"
+            android:fontFamily="@font/raleway_black"
+            android:text="@string/amount"
+            android:textColor="@color/secondary_brown"
+            android:textSize="11sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/itemAmountTextInputLayoutCreatePackage"
+            android:layout_width="146dp"
+            android:layout_height="28dp"
+            android:layout_below="@id/amountTV"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/lenscraft_custom_edit_text"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:textColorHint="@color/primary_green"
+            app:boxBackgroundMode="none"
+            app:hintAnimationEnabled="false"
+            app:hintEnabled="false"
+            app:hintTextColor="@color/secondary_brown">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/packageItemAmountTxt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/lenscraft_custom_edit_text"
+                android:focusable="true"
+                android:fontFamily="@font/raleway_black"
+                android:inputType="text"
+                android:paddingStart="6dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/secondary_brown"
+                android:textSize="11sp"
+                android:visibility="visible"
+                app:textInputLayoutFocusedRectEnabled="false" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/createPackageItemBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/amountContainer"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/lenscraft_custom_orange_button"
+        android:fontFamily="@font/raleway_extra_bold"
+        android:text="@string/create_package"
+        android:textAllCaps="false"
+        android:textColor="@color/secondary_brown"
+        android:textSize="14sp" />
+
+</RelativeLayout>
