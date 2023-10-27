@@ -113,6 +113,8 @@ public class CreatePackageItem extends AppCompatActivity {
             default:
                 // Handle unexpected position
         }
+
+
     }
 
     private void replacePackageItemFragment(int imageResource, String labelText, String item) {

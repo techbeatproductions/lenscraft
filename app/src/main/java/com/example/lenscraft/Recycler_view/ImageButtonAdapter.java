@@ -1,6 +1,7 @@
 package com.example.lenscraft.Recycler_view;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,11 @@ public class ImageButtonAdapter extends RecyclerView.Adapter<ImageButtonAdapter.
     private List<ImageButtonModel> imageButtonList;
     private Context context;
     private OnItemClickListener onItemClickListener;
+
+    private int selectedItemPosition = RecyclerView.NO_POSITION; // Variable to track the clicked item position
+
+
+
 
     public ImageButtonAdapter(List<ImageButtonModel> imageButtonList) {
         this.imageButtonList = imageButtonList;
@@ -43,6 +49,15 @@ public class ImageButtonAdapter extends RecyclerView.Adapter<ImageButtonAdapter.
         ImageButtonModel item = imageButtonList.get(position);
         holder.imageButton.setImageResource(item.getImageResourceId());
         holder.textView.setText(item.getLabelText());
+
+        // Update the item's appearance based on its position
+        if (position == selectedItemPosition) {
+            // Apply the underline style to the selected item
+            holder.textView.setPaintFlags(holder.textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        } else {
+            // Reset the appearance of unselected items
+            holder.textView.setPaintFlags(holder.textView.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+        }
     }
 
     @Override
@@ -73,4 +88,14 @@ public class ImageButtonAdapter extends RecyclerView.Adapter<ImageButtonAdapter.
             });
         }
     }
+
+    public void setSelectedItemPosition(int position) {
+        int previousSelectedItemPosition = selectedItemPosition;
+        selectedItemPosition = position;
+
+        // Notify the adapter that the data set has changed to update the view
+        notifyItemChanged(previousSelectedItemPosition);
+        notifyItemChanged(selectedItemPosition);
+    }
+
 }

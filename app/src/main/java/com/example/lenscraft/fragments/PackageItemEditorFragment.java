@@ -78,6 +78,11 @@ public class PackageItemEditorFragment extends Fragment {
         createItem = view.findViewById(R.id.createPackageItemBtn);
         amount = view.findViewById(R.id.amountTV);
 
+        Button createPkgBtn = getActivity().findViewById(R.id.creatPkgBtn);
+        if (createPkgBtn != null){
+            createPkgBtn.setVisibility(View.GONE);
+        }
+
         createItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
