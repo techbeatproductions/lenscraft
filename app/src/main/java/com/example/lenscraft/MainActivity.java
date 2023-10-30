@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (userID != -1) {
                     // User ID is saved, navigate to SignIn activity
+
                     Intent intent = new Intent(MainActivity.this, SignIn.class);
                     startActivity(intent);
                 } else {
@@ -50,4 +51,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         return sharedPreferences.getInt("userID", -1); // Default value of -1 if not found
     }
+
+
+
 }
