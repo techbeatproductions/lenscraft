@@ -11,9 +11,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.lenscraft.APIRequests.UserRegistrationTask;
@@ -30,6 +32,7 @@ public class SignUp extends AppCompatActivity implements UserRegistrationTask.Re
     TextInputLayout usernameLayout, emailLayout, passwordLayout, repeatPasswordLayout;
     Button signUp;
     LinearLayout signInClickable;
+    ProgressBar progressBar;
 
     private static final String EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
@@ -63,6 +66,7 @@ public class SignUp extends AppCompatActivity implements UserRegistrationTask.Re
         password = findViewById(R.id.passwordTxt);
         repeatPassword = findViewById(R.id.repeatpasswordTxt);
 
+
         // Initializing Text Input Layout
         usernameLayout = findViewById(R.id.usernameTextInputLayout);
         emailLayout = findViewById(R.id.emailTextInputLayout);
@@ -70,8 +74,11 @@ public class SignUp extends AppCompatActivity implements UserRegistrationTask.Re
         repeatPasswordLayout = findViewById(R.id.repeatpasswordTextInputLayout);
 
         // Initializing Buttons
-        signUp = findViewById(R.id.signInBtn);
+        signUp = findViewById(R.id.signUpBtn);
         signInClickable = findViewById(R.id.signInClickable);
+
+        //Initializing progress bar
+        progressBar = findViewById(R.id.signUpProgressBar);
 
         changeTextInputLayoutDrawableColors();
         validators();
@@ -104,6 +111,8 @@ public class SignUp extends AppCompatActivity implements UserRegistrationTask.Re
                 String passwordInput = password.getText().toString();
                 String repeatPasswordInput = repeatPassword.getText().toString();
 
+                hideKeyboard();
+
                 // Check if any of the fields are empty
                 if (usernameInput.isEmpty() || emailInput.isEmpty() || passwordInput.isEmpty() || repeatPasswordInput.isEmpty()) {
                     // Show an error message or handle it as needed
@@ -124,6 +133,8 @@ public class SignUp extends AppCompatActivity implements UserRegistrationTask.Re
                     }
                 } else {
                     // Create a JSON object with user registration data
+                    progressBar.setVisibility(View.VISIBLE);
+
                     JSONObject userData = new JSONObject();
                     try {
                         userData.put("firstName", "");  // You can set these fields as needed
@@ -143,6 +154,14 @@ public class SignUp extends AppCompatActivity implements UserRegistrationTask.Re
                     registrationTask.execute(userData);
                 }
             }
+
+            private void hideKeyboard() {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                View currentFocus = getCurrentFocus();
+                if (currentFocus != null) {
+                    imm.hideSoftInputFromWindow(currentFocus.getWindowToken(), 0);
+                }
+            }
         });
     }
 
@@ -151,6 +170,7 @@ public class SignUp extends AppCompatActivity implements UserRegistrationTask.Re
     public void onRegistrationResult(JSONObject result) {
         // Log the registration response data
         Log.d("RegistrationResponse", "Response: " + result.toString());
+        progressBar.setVisibility(View.GONE);
 
         if (result != null) {
             try {
@@ -169,7 +189,17 @@ public class SignUp extends AppCompatActivity implements UserRegistrationTask.Re
                 } else {
                     // Registration was not successful
                     String error = result.optString("error");
-                    // Handle the error, display an error message, etc.
+                    // Handle the error, display an error message, etc
+                    //
+                    // Check if the error message is related to email
+                    if (error.contains("Duplicate entry") && error.contains("email")) {
+                        // Set an error message for the emailInput field
+                        email.setError("Email already exists");
+                    } else if (error.contains("Duplicate entry") && error.contains("username")) {
+                        username.setError("Username is already in use");
+                    } else {
+                        // Handle other error cases, display a general error message, etc.
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

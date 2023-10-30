@@ -176,7 +176,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/signInBtn"
+            android:id="@+id/signUpBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/repeatpasswordTextInputLayout"
@@ -195,7 +195,7 @@
             android:id="@+id/signInClickable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/signInBtn"
+            android:layout_below="@id/signUpBtn"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="45dp"
             android:layout_marginBottom="67dp"
@@ -221,6 +221,17 @@
                 android:textColor="@color/secondary_brown"
                 android:textSize="14sp" />
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/signUpProgressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/signUpBtn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:indeterminateTint="@color/secondary_orange"
+            android:visibility="gone" />
     </RelativeLayout>
 
 </ScrollView>

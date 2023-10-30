@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +48,7 @@ public class PackageItemEditorFragment extends Fragment {
     private String packageItem;
     private TextInputEditText brandInputEditText, amountInputEditText, modelInputEditText, descriptionInputEditText;
     private TextInputLayout modelTextInputLayout, descTextInputLayout;
+    ProgressBar progressBar;
 
     private Button createItem;
     private TextView amount;
@@ -77,6 +80,9 @@ public class PackageItemEditorFragment extends Fragment {
         descTextInputLayout = view.findViewById(R.id.itemDescriptionInputLayoutCreatePackage);
         createItem = view.findViewById(R.id.createPackageItemBtn);
         amount = view.findViewById(R.id.amountTV);
+
+        // Initializing progress bar
+        progressBar = view.findViewById(R.id.createPackageItemProgressBar);
 
         Button createPkgBtn = getActivity().findViewById(R.id.creatPkgBtn);
         if (createPkgBtn != null){
@@ -147,6 +153,15 @@ public class PackageItemEditorFragment extends Fragment {
                 String modelInput = modelInputEditText.getText().toString();
                 String descriptionInput = descriptionInputEditText.getText().toString();
 
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.VISIBLE);
+//                        showToast("Item created successfully!");
+                    }
+                });
+                hideKeyboard();
+
                 // Retrieve the user_id from shared preferences
                 SharedPreferences sharedPreferences = requireContext().getSharedPreferences("user_input", Context.MODE_PRIVATE);
                 int userId = sharedPreferences.getInt("user_id", -1); // Use a default value if user_id is not found
@@ -172,6 +187,7 @@ public class PackageItemEditorFragment extends Fragment {
                     CameraCreationTask cameraCreationTask = new CameraCreationTask(new CameraCreationTask.CameraCreationResultListener() {
                         @Override
                         public void onCameraCreationResult(JSONObject result) {
+                            progressBar.setVisibility(View.GONE);
                             // Handle the success result
                             try {
                                 int cameraID = result.getInt("cameraID");
@@ -195,6 +211,7 @@ public class PackageItemEditorFragment extends Fragment {
                     AudioCreationTask audioCreationTask = new AudioCreationTask(new AudioCreationTask.AudioCreationResultListener() {
                         @Override
                         public void onAudioCreationResult(JSONObject result) {
+                            progressBar.setVisibility(View.GONE);
                             // Handle the success result
                             try {
                                 int audioID = result.getInt("audio_equipment_id");
@@ -216,6 +233,7 @@ public class PackageItemEditorFragment extends Fragment {
                     LensCreationTask lensCreationTask = new LensCreationTask(new LensCreationTask.LensCreationResultListener() {
                         @Override
                         public void onLensCreationResult(JSONObject result) {
+                            progressBar.setVisibility(View.GONE);
                             // Handle the success result
                             try {
                                 int lensID = result.getInt("lens_id");
@@ -237,6 +255,7 @@ public class PackageItemEditorFragment extends Fragment {
                     PrintablesCreationTask printablesCreationTask = new PrintablesCreationTask(new PrintablesCreationTask.PrintablesCreationResultListener() {
                         @Override
                         public void onPrintablesCreationResult(JSONObject result) {
+                            progressBar.setVisibility(View.GONE);
                             // Handle the success result
                             try {
                                 int printablesID = result.getInt("printable_id");
@@ -260,6 +279,7 @@ public class PackageItemEditorFragment extends Fragment {
                     LightCreationTask lightCreationTask = new LightCreationTask(new LightCreationTask.LightCreationResultListener() {
                         @Override
                         public void onLightCreationResult(JSONObject result) {
+                            progressBar.setVisibility(View.GONE);
                             // Handle the success result
                             try {
                                 int lightID = result.getInt("light_id");
@@ -324,6 +344,17 @@ public class PackageItemEditorFragment extends Fragment {
         }
 
         return view;
+    }
+
+    private void hideKeyboard() {
+        // Obtain a reference to the Context from the view
+        Context context = requireContext();
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        View currentFocus = getActivity().getCurrentFocus(); // Use getActivity() to get the current focused view
+        if (currentFocus != null) {
+            imm.hideSoftInputFromWindow(currentFocus.getWindowToken(), 0);
+        }
     }
 
     private void showErrorToast(String s) {
