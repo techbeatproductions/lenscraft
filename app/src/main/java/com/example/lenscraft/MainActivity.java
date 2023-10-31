@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,11 +32,20 @@ public class MainActivity extends AppCompatActivity {
                 // Check if a user ID is saved in SharedPreferences
                 int userID = getUserIDFromSharedPreferences();
 
-                if (userID != -1) {
+                if (userID != -1 && isUsernameFetched()) {
                     // User ID is saved, navigate to SignIn activity
 
-                    Intent intent = new Intent(MainActivity.this, SignIn.class);
-                    startActivity(intent);
+                    if (isUsernameFetched()) {
+                        // Username is fetched, navigate to SignIn activity
+                        Log.d("MainActivity", "User ID found and Username has been fetched");
+                        Intent intent = new Intent(MainActivity.this, SignIn.class);
+                        startActivity(intent);
+                        finish(); // Finish the splash screen activity
+                    } else {
+                        // Username is not fetched, you can handle this case or show a message
+                        Log.d("MainActivity", "User ID found, but Username has not been fetched");
+                    }
+
                 } else {
                     // User ID is not saved, navigate to Onboarding1 activity
                     Intent intent = new Intent(MainActivity.this, Onboarding1.class);
@@ -50,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
     private int getUserIDFromSharedPreferences() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         return sharedPreferences.getInt("userID", -1); // Default value of -1 if not found
+    }
+
+    private boolean isUsernameFetched() {
+        // You can implement your logic to check if the username is fetched here
+        // Return true if fetched, false otherwise
+        return true; // Change this as needed
     }
 
 
