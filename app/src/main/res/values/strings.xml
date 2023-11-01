@@ -40,6 +40,8 @@ associated with your account</string>
     <string name="no_of_cameras">No of Cameras :</string>
     <string name="amount">Amount</string>
     <string name="create_package">Create Package</string>
+    <string name="package_name">Package Name :</string>
+    <string name="package_description">Package Description :</string>
     <string name="brand">Brand</string>
     <string name="model">Model</string>
     <string name="description">Description</string>

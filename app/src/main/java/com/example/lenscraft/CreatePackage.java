@@ -20,6 +20,7 @@ import com.example.lenscraft.Recycler_view.ImageButtonModel;
 import com.example.lenscraft.Recycler_view.ItemSpacingDecoration;
 import com.example.lenscraft.fragments.LensCraftLogo;
 import com.example.lenscraft.fragments.PackageItemEditorFragment;
+import com.example.lenscraft.fragments.PackageNameAndDescriptionFragment;
 import com.example.lenscraft.fragments.WeddingPackageFragment;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ public class CreatePackage extends AppCompatActivity implements ItemRecyclerView
         // Logo Fragment
         replaceFragment(new LensCraftLogo(), R.id.logoFragmentContainerCreatePackageScreen);
         replaceFragment(new WeddingPackageFragment(), R.id.WelcomeFragmentContainerCreatePackageScreen);
+        replaceFragment(new PackageNameAndDescriptionFragment(), R.id.packageUserInputFragmentContainer);
 
         recyclerView = findViewById(R.id.packageBtnRecyclerView);
 
@@ -160,27 +162,78 @@ public class CreatePackage extends AppCompatActivity implements ItemRecyclerView
         // Log the ID of the clicked item and its category
         Log.d("CreatePackage", "Clicked item with ID: " + itemId + " in category: " + category);
 
-        // Save the clicked item's ID and category to SharedPreferences
-        saveItemToSharedPreferences(itemId, category);
-
-        // Refresh the activity
-        refreshActivity();
+        // Check if the clicked item is "Package Name" or "Package Description"
+        if (itemId == R.drawable.package_name) {
+            // Handle "Package Name" item click
+            showPackageNameInput();
+        } else if (itemId == R.drawable.package_description) {
+            // Handle "Package Description" item click
+            showPackageDescriptionInput();
+        } else {
+            // Handle other item clicks
+            // Load the existing count of saved items
+            int itemCount = getSavedItemCount();
+            // Save the clicked item's ID and category to SharedPreferences
+            saveItemToSharedPreferences(itemId, category, itemCount);
+            // Refresh the activity
+            refreshActivity();
+        }
     }
 
-    private void saveItemToSharedPreferences(int itemId, String category) {
+
+    private void showPackageNameInput() {
+        // Replace the fragment with a fragment or view that allows user input for Package Name
+        replaceFragment(new PackageNameAndDescriptionFragment(), R.id.packageUserInputFragmentContainer);
+    }
+
+    private void showPackageDescriptionInput() {
+        // Replace the fragment with a fragment or view that allows user input for Package Description
+        replaceFragment(new PackageNameAndDescriptionFragment(), R.id.packageUserInputFragmentContainer);
+    }
+
+    private void saveItemToSharedPreferences(int itemId, String category, int itemCount) {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         // Save the item ID and category
         editor.putInt("clickedItemId", itemId);
         editor.putString("clickedCategory", category);
+
+        // Increment the item count
+        editor.putInt("itemCount", itemCount + 1);
         editor.apply();
     }
 
+    private int getSavedItemCount() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt("itemCount", 0);
+    }
+
     private void refreshActivity() {
+        //Log the items saved in shared preferences
+        logItemsFromSharedPreferences();
+        
+        
         // Refresh the activity by restarting it
         Intent intent = getIntent();
         finish();
         startActivity(intent);
     }
+
+    private void logItemsFromSharedPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+
+        // Retrieve the number of saved items
+        int itemCount = sharedPreferences.getInt("itemCount", 0);
+
+        for (int i = 0; i < itemCount; i++) {
+            int clickedItemId = sharedPreferences.getInt("clickedItemId" + i, -1);
+            String clickedCategory = sharedPreferences.getString("clickedCategory" + i, "");
+
+            // Log the saved data
+            Log.d("CreatePackage", "Saved item ID " + i + ": " + clickedItemId);
+            Log.d("CreatePackage", "Saved item category " + i + ": " + clickedCategory);
+        }
+    }
+
 }

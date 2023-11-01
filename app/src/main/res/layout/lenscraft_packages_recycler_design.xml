@@ -15,8 +15,8 @@
             android:id="@+id/singlePackageItemCardViewContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             android:layout_weight="1"
             app:cardBackgroundColor="@color/secondary_brown"
             app:cardCornerRadius="10dp">
@@ -42,45 +42,68 @@
                         app:srcCompat="@drawable/package_camera" />
                 </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:id="@+id/packageItemBrandTV"
-                    android:layout_width="wrap_content"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/brandModelCardView"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="48dp"
+                    android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
-                    android:layout_toRightOf="@id/packageTypeCardViewContainer"
-                    android:text="TextView" />
-
-                <TextView
-                    android:id="@+id/packageItemModelTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/packageItemBrandTV"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_toRightOf="@id/packageTypeCardViewContainer"
-                    android:text="TextView" />
-
-                <TextView
-                    android:id="@+id/packageItemDescriptionTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/packageItemModelTV"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_toRightOf="@id/packageTypeCardViewContainer"
-                    android:text="TextView" />
-
-                <TextView
-                    android:id="@+id/packageItemAmountTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/packageItemDescriptionTV"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="24dp"
                     android:layout_marginBottom="24dp"
                     android:layout_toRightOf="@id/packageTypeCardViewContainer"
-                    android:text="TextView" />
+                    app:cardBackgroundColor="@color/primary_green"
+                    app:cardCornerRadius="5dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/packageItemBrandTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="48dp"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/raleway_bold"
+                            android:text="@string/brand"
+                            android:textColor="@color/secondary_brown" />
+
+                        <TextView
+                            android:id="@+id/packageItemDescriptionTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/packageItemBrandTV"
+                            android:layout_marginStart="48dp"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/raleway_bold"
+                            android:text="@string/description"
+                            android:textColor="@color/secondary_brown" />
+
+                        <TextView
+                            android:id="@+id/packageItemModelTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/packageItemDescriptionTV"
+                            android:layout_marginStart="48dp"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/raleway_bold"
+                            android:text="@string/model"
+                            android:textColor="@color/secondary_brown" />
+
+                        <TextView
+                            android:id="@+id/packageItemAmountTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/packageItemModelTV"
+                            android:layout_marginStart="48dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="4dp"
+                            android:fontFamily="@font/raleway_bold"
+                            android:text="@string/amount"
+                            android:textColor="@color/secondary_brown" />
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>

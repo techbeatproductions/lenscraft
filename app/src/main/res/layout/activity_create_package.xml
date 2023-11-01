@@ -50,7 +50,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/logoFragmentContainerCreatePackageScreen"
-                    android:layout_marginTop="143dp" />
+                    android:layout_marginTop="64dp"
+                    android:layout_marginBottom="24dp" />
 
             </RelativeLayout>
 
@@ -67,59 +68,74 @@
             app:cardBackgroundColor="@color/primary_green"
             app:cardCornerRadius="25dp">
 
-            <RelativeLayout
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent" >
 
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/pckageItemsClickablesCardView"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="102dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="42dp"
-                    android:layout_marginEnd="24dp"
-                    app:cardBackgroundColor="@color/secondary_brown"
-                    app:cardCornerRadius="5dp">
+                    android:layout_height="wrap_content">
 
-                    <RelativeLayout
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/pckageItemsClickablesCardView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="102dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="42dp"
+                        android:layout_marginEnd="24dp"
+                        app:cardBackgroundColor="@color/secondary_brown"
+                        app:cardCornerRadius="5dp">
 
-                        <TextView
-                            android:id="@+id/seeMoreTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="5dp"
-                            android:fontFamily="@font/raleway_black"
-                            android:text="@string/see_more"
-                            android:textColor="@color/primary_green"
-                            android:textSize="11sp" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/packageBtnRecyclerView"
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_below="@id/seeMoreTV"
-                            android:layout_marginStart="11dp"
-                            android:layout_marginTop="17dp"
-                            android:layout_marginEnd="11dp" />
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
+                            android:layout_height="match_parent">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/packageItemSelectorRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/pckageItemsClickablesCardView"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginBottom="24dp" />
+                            <TextView
+                                android:id="@+id/seeMoreTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginEnd="5dp"
+                                android:fontFamily="@font/raleway_black"
+                                android:text="@string/see_more"
+                                android:textColor="@color/primary_green"
+                                android:textSize="11sp" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/packageBtnRecyclerView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@id/seeMoreTV"
+                                android:layout_marginStart="11dp"
+                                android:layout_marginTop="17dp"
+                                android:layout_marginEnd="11dp" />
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.fragment.app.FragmentContainerView
+                        android:id="@+id/packageUserInputFragmentContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/pckageItemsClickablesCardView"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginBottom="24dp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/packageItemSelectorRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/packageUserInputFragmentContainer"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginBottom="24dp" />
 
 
-            </RelativeLayout>
+                </RelativeLayout>
+            </ScrollView>
 
         </androidx.cardview.widget.CardView>
     </RelativeLayout>

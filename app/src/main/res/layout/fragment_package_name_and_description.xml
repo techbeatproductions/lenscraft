@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+
+
+    tools:context=".fragments.PackageNameAndDescriptionFragment">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/packageItemTextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/lenscraft_custom_edit_text"
+        android:focusableInTouchMode="true"
+        android:textColorHint="@color/primary_green"
+        app:boxBackgroundMode="none"
+        app:hintAnimationEnabled="false"
+        app:hintEnabled="false"
+        app:hintTextColor="@color/primary_green">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/usernameTxt"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/lenscraft_custom_edit_text"
+            android:focusable="true"
+            android:fontFamily="@font/raleway_light"
+            android:hint="@string/package_name"
+            android:inputType="text"
+            android:paddingStart="24dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/primary_green"
+            android:textSize="12sp"
+            android:visibility="visible"
+            app:textInputLayoutFocusedRectEnabled="false" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+</RelativeLayout>
