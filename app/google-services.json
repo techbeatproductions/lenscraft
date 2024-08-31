@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "611180769117",
+    "firebase_url": "https://tech-beat-photography-app-default-rtdb.firebaseio.com",
+    "project_id": "tech-beat-photography-app",
+    "storage_bucket": "tech-beat-photography-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:611180769117:android:ccf3a829fd99705d72c2b4",
+        "android_client_info": {
+          "package_name": "com.example.lenscraft"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUZ6_uJsUXvq62A-d7FPRDZXuBSVhMFZU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -10,9 +10,14 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final long SPLASH_DELAY = 2000; // 2 seconds
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,49 +30,41 @@ public class MainActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
         getWindow().getDecorView().setSystemUiVisibility(flags);
 
+        mAuth = FirebaseAuth.getInstance();
+
         // Create a handler with a delayed action
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Check if a user ID is saved in SharedPreferences
-                int userID = getUserIDFromSharedPreferences();
+        new Handler().postDelayed(() -> {
+            // Check if an email is saved in SharedPreferences
+            String userEmail = getEmailFromSharedPreferences();
 
-                if (userID != -1 && isUsernameFetched()) {
-                    // User ID is saved, navigate to SignIn activity
-
-                    if (isUsernameFetched()) {
-                        // Username is fetched, navigate to SignIn activity
-                        Log.d("MainActivity", "User ID found and Username has been fetched");
-                        Intent intent = new Intent(MainActivity.this, SignIn.class);
-                        startActivity(intent);
-                        finish(); // Finish the splash screen activity
-                    } else {
-                        // Username is not fetched, you can handle this case or show a message
-                        Log.d("MainActivity", "User ID found, but Username has not been fetched");
-                    }
-
+            if (userEmail != null) {
+                // Email is saved, check if user is authenticated
+                FirebaseUser currentUser = mAuth.getCurrentUser();
+                if (currentUser != null) {
+                    // User is authenticated, navigate to SignIn activity
+                    Log.d("MainActivity", "Email found and User is authenticated. Proceeding to SignIn activity.");
+                    Intent intent = new Intent(MainActivity.this, SignIn.class);
+                    startActivity(intent);
                 } else {
-                    // User ID is not saved, navigate to Onboarding1 activity
-                    Intent intent = new Intent(MainActivity.this, Onboarding1.class);
+                    // User is not authenticated, could be logged out or session expired
+                    Log.d("MainActivity", "Email found, but User is not authenticated. Redirecting to SignIn activity.");
+                    Intent intent = new Intent(MainActivity.this, SignIn.class);
                     startActivity(intent);
                 }
-                finish(); // Finish the splash screen activity
+            } else {
+                // Email is not saved, navigate to Onboarding1 activity
+                Log.d("MainActivity", "No email found. Redirecting to Onboarding1 activity.");
+                Intent intent = new Intent(MainActivity.this, Onboarding1.class);
+                startActivity(intent);
             }
+
+            finish(); // Finish the splash screen activity
         }, SPLASH_DELAY);
     }
 
-    // Retrieve the user ID from SharedPreferences
-    private int getUserIDFromSharedPreferences() {
+    // Retrieve the email from SharedPreferences
+    private String getEmailFromSharedPreferences() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        return sharedPreferences.getInt("userID", -1); // Default value of -1 if not found
+        return sharedPreferences.getString("email", null); // Default value of null if not found
     }
-
-    private boolean isUsernameFetched() {
-        // You can implement your logic to check if the username is fetched here
-        // Return true if fetched, false otherwise
-        return true; // Change this as needed
-    }
-
-
-
 }

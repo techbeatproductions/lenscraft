@@ -41,17 +41,17 @@
             app:hintAnimationEnabled="false"
             app:hintEnabled="false"
             app:hintTextColor="@color/primary_green"
-            app:startIconDrawable="@drawable/usernamedefaulticon"
+            app:startIconDrawable="@drawable/emaildefaulticon"
             app:startIconTint="@color/primary_green">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/usernameTxt"
+                android:id="@+id/emailSignInTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/lenscraft_custom_edit_text"
                 android:focusable="true"
                 android:fontFamily="@font/raleway_light"
-                android:hint="@string/username"
+                android:hint="@string/Email"
                 android:inputType="text"
                 android:textColor="@color/black"
                 android:textColorHint="@color/primary_green"

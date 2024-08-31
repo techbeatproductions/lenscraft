@@ -1,13 +1,13 @@
 package com.example.lenscraft;
 
-// SignIn.java
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Patterns;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -15,139 +15,141 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Intent;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-import com.example.lenscraft.APIRequests.FetchUsernameTask;
-import com.example.lenscraft.APIRequests.LoginTask;
-import com.example.lenscraft.fragments.LensCraftLogo;
-import com.example.lenscraft.fragments.SignInWelcomeFragment;
+public class SignIn extends AppCompatActivity {
 
-public class SignIn extends AppCompatActivity implements LoginTask.LoginTaskListener {
-    EditText usernameSignIn, passwordSignIn;
+    EditText email, password;
+    TextInputLayout emailLayout, passwordLayout;
     Button signIn;
     LinearLayout signUpClickable;
-    private String fetchedUsername;
     ProgressBar progressBar;
+
+    private FirebaseAuth mAuth;
+    private static final String TAG = "SignInActivity";
+
+    private List<List<Object>> tapData = new ArrayList<>();
+    private List<Integer> pinDigits = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        int flags = View.SYSTEM_UI_FLAG_IMMERSIVE
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN;
-        getWindow().getDecorView().setSystemUiVisibility(flags);
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
 
-        // Begin the transaction
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        // Initializing Edit Texts
+        email = findViewById(R.id.emailSignInTxt);
+        password = findViewById(R.id.passwordSignInTxt);
 
-        // Logo Fragment
-        Fragment logo = new LensCraftLogo();
-        transaction.replace(R.id.logoFragmentContainer5, logo);
+        // Initializing Text Input Layouts
+        emailLayout = findViewById(R.id.usernameTextInputLayout);
+        passwordLayout = findViewById(R.id.passwordTextInputLayoutSignIn);
 
-        Fragment welcome = new SignInWelcomeFragment();
-        transaction.replace(R.id.WelcomeFragmentContainer5, welcome);
-
-        transaction.commit();
-
-        //Initialize UI elements
-        usernameSignIn = findViewById(R.id.usernameTxt);
-        passwordSignIn = findViewById(R.id.passwordSignInTxt);
+        // Initializing Buttons
         signIn = findViewById(R.id.signInBtn);
         signUpClickable = findViewById(R.id.signUpClickable);
+
+        // Initializing progress bar
         progressBar = findViewById(R.id.loginProgressBar);
 
-        // Call the AsyncTask to fetch the username
-        new FetchUsernameTask(this, new FetchUsernameTask.OnUsernameFetchedListener() {
-            @Override
-            public void onUsernameFetched(String username) {
-                // Handle the fetched username
-                fetchedUsername = username;
+        // Setting up event listeners
+        setupListeners();
+
+        // Capture touch data for authentication
+        signIn.setOnTouchListener((v, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    captureTouchData(event, 0); // 0 for touch down
+                    break;
+                case MotionEvent.ACTION_UP:
+                    captureTouchData(event, 1); // 1 for touch up
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    Log.d(TAG, "ACTION_MOVE detected");
+                    captureTouchData(event, 2); // 2 for touch move
+                    break;
             }
-        }).execute();
-
-
-        validators();
+            return false; // Return false to allow click event to proceed
+        });
     }
 
-    public void validators() {
-        signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String usernameInput = usernameSignIn.getText().toString().trim();
-                String passwordInput = passwordSignIn.getText().toString();
+    private void setupListeners() {
+        signUpClickable.setOnClickListener(v -> {
+            Intent signUpIntent = new Intent(SignIn.this, SignUp.class);
+            startActivity(signUpIntent);
+        });
 
-                if (usernameInput.isEmpty() || passwordInput.isEmpty()) {
-                    Toast.makeText(SignIn.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+        signIn.setOnClickListener(v -> {
+            String emailInput = email.getText().toString().trim();
+            String passwordInput = password.getText().toString();
 
-                hideKeyboard();
-                progressBar.setVisibility(View.VISIBLE);
+            hideKeyboard();
 
-                // Call the LoginTask to perform the login
-                // Call the LoginTask to perform the login
+            if (emailInput.isEmpty() || passwordInput.isEmpty()) {
+                Toast.makeText(SignIn.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                // Call the LoginTask to perform the login
-                new LoginTask(SignIn.this, new LoginTask.LoginTaskListener() {
-                    @Override
-                    public void onLoginCompleted(String result) {
-                        progressBar.setVisibility(View.GONE);
+            if (!isEmailValid(emailInput)) {
+                email.setError("Invalid email address");
+                return;
+            }
 
-                        // Handle the login result here
-                        if (result != null) {
-                            try {
-                                JSONObject jsonResponse = new JSONObject(result);
-                                String status = jsonResponse.getString("status");
+            progressBar.setVisibility(View.VISIBLE);
+            Log.d(TAG, "Starting user sign-in...");
 
-                                if (status.equals("success")) {
-                                    // Login successful, navigate to CreatePackageItem Activity
-                                    Intent intent = new Intent(SignIn.this, CreatePackageItem.class);
-                                    startActivity(intent);
-                                    finish();
-                                } else if (status.equals("error")) {
-                                    String message = jsonResponse.getString("message");
-                                    if (message.equals("User does not exist")) {
-                                        // Set an error message for the username field
-                                        usernameSignIn.setError("User does not exist");
-                                    } else if (message.equals("Invalid password")) {
-                                        passwordSignIn.setError("Invalid password");
-                                    } else {
-                                        // Handle other error cases here
-                                        Toast.makeText(SignIn.this, "Login failed: " + message, Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Toast.makeText(SignIn.this, "Login failed: JSON parsing error", Toast.LENGTH_SHORT).show();
+            mAuth.signInWithEmailAndPassword(emailInput, passwordInput)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "Sign-in successful");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null) {
+                                saveUserDataToSharedPreferences(user.getDisplayName(), emailInput);
+
+                                // Retrieve user_id and user_model_directory from SharedPreferences
+                                SharedPreferences sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
+                                String userId = sharedPreferences.getString("user_id", "defaultUserId");
+                                String userModelDirectory = sharedPreferences.getString("user_model_directory", "defaultModelDirectory");
+
+                                // Send touch dynamics data to server
+                                String touchDataJson = createJsonData(userId, tapData, userModelDirectory);
+                                sendDataToServer(touchDataJson);
+
+                                // Navigate to another activity
+                                Intent intent = new Intent(SignIn.this, CreatePackageItem.class);
+                                startActivity(intent);
+                                finish();
                             }
                         } else {
-                            // Handle null response or errors
-                            Toast.makeText(SignIn.this, "Login failed: No response from the server", Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
+                            Log.d(TAG, "Sign-in failed", task.getException());
+                            Toast.makeText(SignIn.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
-                    }
-
-                }).execute(usernameInput, passwordInput);
-
-            }
+                    });
         });
+    }
 
-        signUpClickable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                Intent intent = new Intent(SignIn.this, SignUp.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+    private boolean isEmailValid(String email) {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     private void hideKeyboard() {
@@ -158,27 +160,114 @@ public class SignIn extends AppCompatActivity implements LoginTask.LoginTaskList
         }
     }
 
-    @Override
-    public void onLoginCompleted(String result) {
-        if (result != null) {
-            try {
-                JSONObject jsonResponse = new JSONObject(result);
-                String status = jsonResponse.getString("status");
+    private void saveUserDataToSharedPreferences(String username, String email) {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("username", username);
+        editor.putString("email", email);
+        // Optional: Consider storing user_id and user_model_directory if they are available
+        editor.apply();
+    }
 
-                if (status.equals("success")) {
-                    // Login successful, navigate to CreatePackageItem Activity
-                    Intent intent = new Intent(this, CreatePackageItem.class);
-                    startActivity(intent);
-                    finish();
-
-                } else {
-                    Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else {
-            // Handle null response or errors
+    // Method to initialize pin digits as individual entries
+    private void initializePinDigits(String pin) {
+        pinDigits.clear();
+        for (char digit : pin.toCharArray()) {
+            pinDigits.add(Character.getNumericValue(digit));
         }
+    }
+
+    // Method to create JSON data with tapData entries
+    private String createJsonData(String userId, List<List<Object>> tapData, String userModelDirectory) {
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+
+        try {
+            jsonObject.put("user_id", userId);
+            jsonObject.put("user_model_directory", userModelDirectory);
+
+            for (List<Object> entry : tapData) {
+                JSONArray jsonEntry = new JSONArray();
+                jsonEntry.put((Integer) entry.get(0)); // Pin digit
+                jsonEntry.put((Double) entry.get(1)); // Event time
+                jsonEntry.put((Double) entry.get(2)); // X position
+                jsonEntry.put((Double) entry.get(3)); // Y position
+                jsonEntry.put((Double) entry.get(4)); // Pressure
+                jsonEntry.put((Integer) entry.get(5)); // Action type
+
+                jsonArray.put(jsonEntry);
+            }
+
+            jsonObject.put("tap_data", jsonArray);
+        } catch (JSONException e) {
+            Log.e(TAG, "Error creating JSON data", e);
+            // Handle the exception, e.g., show a Toast or use default values
+        }
+
+        return jsonObject.toString();
+    }
+
+    private void sendDataToServer(final String jsonData) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            HttpURLConnection connection = null;
+            try {
+                Log.d(TAG, "JSON Data to be sent: " + jsonData);
+
+                URL url = new URL("https://501f-41-90-35-30.ngrok-free.app/authenticate"); // Replace with your actual URL
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type", "application/json; utf-8");
+                connection.setRequestProperty("Accept", "application/json");
+                connection.setDoOutput(true);
+
+                try (OutputStream os = connection.getOutputStream()) {
+                    byte[] input = jsonData.getBytes("utf-8");
+                    os.write(input, 0, input.length);
+                }
+
+                int responseCode = connection.getResponseCode();
+                Log.d(TAG, "Server response code: " + responseCode);
+
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(
+                        responseCode >= 200 && responseCode < 400 ? connection.getInputStream() : connection.getErrorStream(), "utf-8"))) {
+                    StringBuilder response = new StringBuilder();
+                    String responseLine;
+                    while ((responseLine = br.readLine()) != null) {
+                        response.append(responseLine.trim());
+                    }
+                    Log.d(TAG, "Server response: " + response.toString());
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Error sending data to server", e);
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+            }
+        });
+    }
+
+    // Method to capture touch data, using each digit of the pin separately
+    private void captureTouchData(MotionEvent event, int actionType) {
+        String pinInput = password.getText().toString().trim();
+        if (pinInput.isEmpty()) return;
+
+        if (pinDigits.isEmpty()) {
+            initializePinDigits(pinInput);
+        }
+
+        int pinIndex = tapData.size() % pinDigits.size(); // Cycle through pin digits
+        int pinDigit = pinDigits.get(pinIndex);
+
+        List<Object> touchEntry = new ArrayList<>();
+        touchEntry.add(pinDigit); // Use the current pin digit
+        touchEntry.add((double) event.getEventTime()); // Event time
+        touchEntry.add((double) event.getX()); // X position
+        touchEntry.add((double) event.getY()); // Y position
+        touchEntry.add((double) event.getPressure()); // Pressure
+        touchEntry.add(actionType); // Action type
+
+        tapData.add(touchEntry);
     }
 }
